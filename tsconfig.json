@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "target": "es3",
+      "module": "esnext",
+      "declaration": true,
+      "outDir": "./lib/esm",
+      "baseUrl": ".",
+      "lib": ["es5", "es6", "dom", "es2015", "es2018"],
+      "sourceMap": true,
+      "moduleResolution": "node",
+      "forceConsistentCasingInFileNames": true,
+      "noImplicitReturns": true,
+      "noUnusedLocals": true,
+      "noImplicitThis": true,
+      "noUnusedParameters": true,
+      "esModuleInterop": true,
+      "strict": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+  }
