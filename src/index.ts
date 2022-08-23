@@ -16,7 +16,6 @@ let count = 0;
 let retrying = false;
 
 const errGenerator: IErrorGenerator = {
-  // Storage for error generating data
   data: {
     _LTracker: [],
     loggly: {
