@@ -39,7 +39,7 @@ interface IData {
     errorLevelOrder: ErrorLevel[],
     version: string | null,
     commit: string | null,
-    timeOffset: number | null,
+    timeOffset: number,
     startTime: number,
 }
 

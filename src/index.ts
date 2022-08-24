@@ -25,7 +25,7 @@ const errGenerator: IErrorGenerator = {
     errorLevelOrder: ['FATAL', 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE'],
     version: null,
     commit: null,
-    timeOffset: null,
+    timeOffset: 0,
     startTime: Date.now(),
   },
   pendingErrors: [],
@@ -238,7 +238,7 @@ function userBlock(self: ISelf) {
 function additionalBlock(
   version: string | null, 
   commit: string | null, 
-  timeOffset: number | null, 
+  timeOffset: number, 
   startTime: number
 ) {
   // App uptime calculation
@@ -258,9 +258,8 @@ function additionalBlock(
     frontEndVersion: version,
     frontEndCommit: commit,
     clientTime: dayjs().format(),
-    // TODO: should be turned on, when time offset calculation is handled on web-ui same as cashier-ui
-    // serverTime: dayjs(currentTime + timeOffset).format(),
-    // timeOffset: timeOffset / 1000,
+    serverTime: dayjs(currentTime + timeOffset).format(),
+    timeOffset: timeOffset / 1000,
     applicationUptime: upTimeDispl,
   };
 }
