@@ -5,9 +5,9 @@ import UAParser from 'ua-parser-js';
 
 import {
   IErrorGenerator,
-  ILogging,
   ErrorLevel,
-  ILoggly
+  ILoggly,
+  ISelf
 } from './types';
 
 export const privateFields = ['pass', 'bank', 'card', 'tele', 'phone', 'mail', 'user', 'token', 'tax', 'address'];
@@ -29,7 +29,7 @@ const errGenerator: IErrorGenerator = {
     startTime: Date.now(),
   },
   pendingErrors: [],
-  registerProviders(loggingObj: ILogging) {
+  registerProviders(loggingObj) {
     if (
       loggingObj
       && Object.prototype.hasOwnProperty.call(loggingObj, 'loggly')
@@ -41,11 +41,11 @@ const errGenerator: IErrorGenerator = {
   // Method to update errGenerator data,
   // one method can be used to update any errGenerator data
   // attribute by passing key/value pairs to the following function
-  updateData(key: string, value: any) {
+  updateData(key, value) {
     // @ts-ignore
     errGenerator.data[key] = value;
   },
-  defaultReport(level: ErrorLevel, message: string, response: any) {
+  defaultReport(level, message, response) {
     errGenerator.report(level, message, {
       status: response.status,
       error: response.data,
@@ -60,7 +60,7 @@ const errGenerator: IErrorGenerator = {
     });
   },
   // Method to send generated error report to error logging service
-  report(level: ErrorLevel, message: string | Event | Error, extraData: any) {
+  report(level, message, extraData) {
     const loggedData = extraData || {};
     if (typeof message === 'string' && message.length > 0 && message.indexOf('Script error.') > -1) {
       return;
@@ -123,7 +123,7 @@ function registerLoggly(loggly: ILoggly) {
   // ****
   // Code was taken from latest version (Content-type):
   // https://cloudfront.loggly.com/js/loggly.tracker-latest.js
-
+  // @ts-ignore
   errGenerator.data._LTracker.track = function (this: any, data: any) {
     // @ts-ignore
     data.sessionId = errGenerator.data._LTracker.session_id;
@@ -215,7 +215,7 @@ function reportToLoggly(level: ErrorLevel, message: string, extraData: any) {
   });
 }
 
-function userBlock(self: any) {
+function userBlock(self: ISelf) {
   if (self && self.settings) {
     return {
       User: self.displayName,
@@ -251,6 +251,7 @@ function additionalBlock(
   const days = Math.floor(dayDiff) > 0
     ? `${Math.floor(dayDiff)}d `
     : '';
+  // @ts-ignore
   const upTimeDispl = days + dayjs.utc(upTime).format('HH:mm:ss');
 
   return {
